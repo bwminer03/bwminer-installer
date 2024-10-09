@@ -3,7 +3,7 @@ VERS="0.3-beta"
 [ -t 1 ] && . colors
 
 echo
-echo "${CYAN}.:Unoffical:. AMD OpenCL Installer v${VERS}${NOCOLOR} by bwminer03"
+echo "${RED}.:Unoffical:. AMD OpenCL Installer v${VERS}${NOCOLOR} by bwminer03"
 
 amdgpuVer=$1
 rocmVer=$2
@@ -34,13 +34,10 @@ function _check {
 
 function _check_availible {
 
-    #!/bin/bash
-
 #Show me the money
 
-#!/bin/bash
 
-echo "${YELLOW}Available GitHub releases for AMDGPU:${NOCOLOR}"
+echo "${GREEN}Available Releases:${NOCOLOR}"
 
 # Fetch the releases and extract names
 releases=$(wget -q -O - https://api.github.com/repos/bwminer03/amd-rocm/releases | \
@@ -50,7 +47,7 @@ releases=$(wget -q -O - https://api.github.com/repos/bwminer03/amd-rocm/releases
 echo "$releases" | nl -w2 -s'. '
 
 # Prompt for release selection
-read -p "Enter the number of the release to download its asset: " release_number
+read -p "Please Select a Release: " release_number
 
 # Get the selected release by number
 release_name=$(echo "$releases" | sed -n "${release_number}p")
@@ -67,7 +64,7 @@ assets=$(wget -q -O - "https://api.github.com/repos/bwminer03/amd-rocm/releases/
 
 # Check if any assets were found
 if [ -z "$assets" ]; then
-    echo "${RED}No .deb assets found for this release.${NOCOLOR}"
+    echo "${RED}Sorry, seems to be missing.¯\_(ツ)_/¯ ${NOCOLOR}"
     exit 1
 fi
 
@@ -76,7 +73,7 @@ asset_name=$(echo "$assets" | head -n 1)
 
 # Check if the asset name is valid
 if [ -z "$asset_name" ]; then
-    echo "${RED}No valid asset found for download.${NOCOLOR}"
+    echo "${RED}No file for download.¯\_(ツ)_/¯ ${NOCOLOR}"
     exit 1
 fi
 
@@ -85,7 +82,7 @@ echo "${YELLOW}Downloading $asset_name...${NOCOLOR}"
 wget -O "${asset_name##*/}" "$asset_name"
 
 if [[ $? -eq 0 ]]; then
-    echo "${GREEN}Download completed successfully.${NOCOLOR}"
+    echo "${GREEN}Download completed successfully.【ツ】${NOCOLOR}"
 else
     echo "${RED}Failed to download the asset.${NOCOLOR}"
 fi
