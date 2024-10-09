@@ -1,7 +1,8 @@
 # bwminer-installer
-New script for HiveOS - Currently a WIP but foudation has been layed.
+New script for HiveOS to install newwer drivers for AMD from this repo.
 
-This is a different script to install newer ROCm drivers on HiveOS, by downloading the releases from github. I did not want to use the same install script as hive-os, that way I assure there are no issues.
+This is a different script to install newer ROCm drivers on HiveOS, by downloading the releases from github. I did not want to use the same install script as hive-os, that way I assure there are no issues.<br />
+<font color="red"><b>THIS IS A EXPERIMENTAL RELEASE, DOWNLOADING AND INSTALLING IS FIXED BUT LOOKING FOR TESTERS.</b></font>
 
 <h2><u>How to Use:</u></h2><br />
 Current install Method:<br /><br />
