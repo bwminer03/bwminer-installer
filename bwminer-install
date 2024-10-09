@@ -76,18 +76,46 @@ if [ -z "$asset_name" ]; then
     echo "${RED}No file for download.¯\_(ツ)_/¯ ${NOCOLOR}"
     exit 1
 fi
-
 # Download the asset
 echo "${YELLOW}Downloading $asset_name...${NOCOLOR}"
 wget -O "${asset_name##*/}" "$asset_name"
 
 if [[ $? -eq 0 ]]; then
     echo "${GREEN}Download completed successfully.【ツ】${NOCOLOR}"
+    
+    # Install the downloaded .deb package
+    echo "${YELLOW}Installing ${asset_name##*/}...${NOCOLOR}"
+    sudo dpkg -i "${asset_name##*/}"
+
+    if [[ $? -eq 0 ]]; then
+        echo "${GREEN}Installation completed successfully.【ツ】${NOCOLOR}"
+        
+        # Uninstall previous libs
+        echo "${CYAN}> Remove any previously installed OpenCL libs...${NOCOLOR}"
+        [[ -e /opt/amdgpu/VERSION ]] && _uninstall
+
+        # Install new (reinstall) libs
+        echo "${CYAN}> Install AMDGPU: ${YELLOW}$amdgpuVer${CYAN} and ROCM: ${YELLOW}$rocmVer${CYAN} OpenCL libs...${NOCOLOR}"
+        sudo apt install -y hive-amdgpu-$amdgpuVer hive-rocm-$rocmVer
+
+        # Restart mining if applicable
+        if [[ $miner_run -eq 1 ]]; then
+            echo "${CYAN}> Restart mining ${NOCOLOR}"
+            miner start > /dev/null 2>&1
+        fi
+
+        # Call hello redetect and _check functions
+        hello redetect
+        _check
+    else
+        echo "${RED}Installation failed. Please check the errors above.${NOCOLOR}"
+        echo "${YELLOW}Attempting to fix missing dependencies...${NOCOLOR}"
+        sudo apt-get install -f
+    fi
 else
     echo "${RED}Failed to download the asset.${NOCOLOR}"
 fi
-
-
+}
 
 }
 
