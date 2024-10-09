@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-VERS="0.3-beta"
+VERS="0.4-rc1"
 [ -t 1 ] && . colors
 
 echo
